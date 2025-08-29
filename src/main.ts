@@ -1,0 +1,50 @@
+import { TypeormDatabase } from "@subsquid/typeorm-store";
+
+import { UsdcTransfer } from "./model";
+import { makeProcessor } from "./processor";
+import { networksConfigs } from "./utils/constants/network.constant";
+import { assert } from "console";
+import { usdcLogsHandlers } from "./utils/helpers/handlers.helper";
+
+assert(
+  networksConfigs.hasOwnProperty(process.argv[2]),
+  `Processor executable takes one argument - a network string ID - ` +
+    `that must be in ${JSON.stringify(Object.keys(networksConfigs))}. Got "${
+      process.argv[2]
+    }".`
+);
+
+const network = process.argv[2];
+export const config = networksConfigs[network];
+
+const processor = makeProcessor(config);
+
+const database = new TypeormDatabase({
+  supportHotBlocks: true,
+  stateSchema: `${config.chainTag}_processor`,
+  isolationLevel: "READ COMMITTED",
+});
+
+let handleOnce = false;
+
+processor.run(database, async (ctx) => {
+  if (!handleOnce) {
+    console.log("version 1.0.0");
+    handleOnce = true;
+  }
+
+  const transfers: UsdcTransfer[] = [];
+
+  for (let block of ctx.blocks) {
+    for (let log of block.logs) {
+      if (log.address === config.usdc.address) {
+        const handler = usdcLogsHandlers.get(log.topics[0]);
+        if (handler) {
+          handler(log, transfers);
+        }
+      }
+    }
+  }
+
+  await ctx.store.insert(transfers);
+});
