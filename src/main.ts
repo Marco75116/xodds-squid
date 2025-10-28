@@ -1,10 +1,9 @@
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-
-import { UsdcTransfer } from "./model";
 import { makeProcessor } from "./processor";
 import { networksConfigs } from "./utils/constants/network.constant";
 import { assert } from "console";
 import { usdcLogsHandlers } from "./utils/helpers/handlers.helper";
+import { EntityManager } from "./utils/EntityManager";
 
 assert(
   networksConfigs.hasOwnProperty(process.argv[2]),
@@ -28,23 +27,23 @@ const database = new TypeormDatabase({
 let handleOnce = false;
 
 processor.run(database, async (ctx) => {
+  const entities = new EntityManager();
+
   if (!handleOnce) {
     console.log("version 1.0.0");
     handleOnce = true;
   }
-
-  const transfers: UsdcTransfer[] = [];
 
   for (let block of ctx.blocks) {
     for (let log of block.logs) {
       if (log.address === config.usdc.address) {
         const handler = usdcLogsHandlers.get(log.topics[0]);
         if (handler) {
-          handler(log, transfers);
+          await handler(ctx, log, entities);
         }
       }
     }
   }
 
-  await ctx.store.insert(transfers);
+  await entities.upsertAll(ctx);
 });

@@ -14,6 +14,8 @@ export const ethNetworkConfig: NetworkConfig = {
     )
   ),
   finalityConfirmation: 75,
+  requestTimeout: 60000,
+  headPollInterval: 30000,
   wrapNative: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2".toLowerCase(),
   chainId: 1,
   chainTag: "eth",

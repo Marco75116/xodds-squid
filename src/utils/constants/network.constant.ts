@@ -10,6 +10,8 @@ export type NetworkConfig = {
   rpcUrl: string;
   prometheusPort: number;
   finalityConfirmation: number;
+  requestTimeout: number;
+  headPollInterval: number;
   wrapNative: string;
   chainId: number;
   chainTag: string;

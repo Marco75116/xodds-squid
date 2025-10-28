@@ -28,8 +28,15 @@ export function makeProcessor(
 ): EvmBatchProcessor<Fields> {
   const processor = new EvmBatchProcessor()
     .setGateway(config.gatewaySqdUrl)
-    .setRpcEndpoint(config.rpcUrl)
-    .setFinalityConfirmation(75)
+    .setRpcEndpoint({
+      url: config.rpcUrl,
+      requestTimeout: config.requestTimeout,
+    })
+    .setRpcDataIngestionSettings({
+      headPollInterval: config.headPollInterval,
+    })
+    .setPrometheusPort(config.prometheusPort)
+    .setFinalityConfirmation(config.finalityConfirmation)
     .addLog({
       range: { from: config.usdc.startBlock },
       address: [config.usdc.address],
