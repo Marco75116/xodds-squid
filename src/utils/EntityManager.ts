@@ -25,3 +25,18 @@ export class EntityManager {
     await batchUpsert(store, Array.from(this.usdcTransfersMap.values()));
   }
 }
+
+export const getUsdcTransferFromMapOrDb = async (
+  store: Store,
+  entities: EntityManager,
+  usdcTransferId: string
+): Promise<UsdcTransfer | undefined> => {
+  let usdcTransfer = entities.usdcTransfersMap.get(usdcTransferId);
+  if (!usdcTransfer) {
+    usdcTransfer = await store.get(UsdcTransfer, usdcTransferId);
+    if (usdcTransfer) {
+      entities.usdcTransfersMap.set(usdcTransferId, usdcTransfer);
+    }
+  }
+  return usdcTransfer;
+};
