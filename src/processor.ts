@@ -45,7 +45,10 @@ export function makeProcessor(
     .addLog({
       range: { from: config.accountFactory.startBlock },
       address: [config.accountFactory.address],
-      topic0: [accountFactoryAbi.events.AccountCreated.topic],
+      topic0: [
+        accountFactoryAbi.events.AccountCreated.topic,
+        accountFactoryAbi.events.VaultConfigured.topic,
+      ],
     })
     .setFields({
       log: {

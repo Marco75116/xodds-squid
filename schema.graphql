@@ -18,3 +18,16 @@ type Account @entity {
   chainId: Int!
   txnHash: String! @index
 }
+
+type VaultConfig @entity {
+  id: ID!
+  account: String! @index
+  owner: String! @index
+  tokens: [String!]!
+  allocations: [String!]!
+  dcaAmount: BigInt!
+  dcaFrequency: BigInt!
+  block: Int!
+  chainId: Int!
+  txnHash: String! @index
+}

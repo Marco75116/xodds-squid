@@ -1,5 +1,5 @@
 import { Store } from "@subsquid/typeorm-store";
-import { Account } from "../model";
+import { Account, VaultConfig } from "../model";
 
 const BATCH_SIZE = 2000;
 
@@ -20,9 +20,11 @@ async function batchUpsert<T extends { id: string }>(
 
 export class EntityManager {
   readonly accountsMap = new Map<string, Account>();
+  readonly vaultConfigsMap = new Map<string, VaultConfig>();
 
   async upsertAll(store: Store): Promise<void> {
     await batchUpsert(store, Array.from(this.accountsMap.values()));
+    await batchUpsert(store, Array.from(this.vaultConfigsMap.values()));
   }
 }
 
@@ -39,4 +41,19 @@ export const getAccountFromMapOrDb = async (
     }
   }
   return account;
+};
+
+export const getVaultConfigFromMapOrDb = async (
+  store: Store,
+  entities: EntityManager,
+  vaultConfigId: string
+): Promise<VaultConfig | undefined> => {
+  let vaultConfig = entities.vaultConfigsMap.get(vaultConfigId);
+  if (!vaultConfig) {
+    vaultConfig = await store.get(VaultConfig, vaultConfigId);
+    if (vaultConfig) {
+      entities.vaultConfigsMap.set(vaultConfigId, vaultConfig);
+    }
+  }
+  return vaultConfig;
 };
