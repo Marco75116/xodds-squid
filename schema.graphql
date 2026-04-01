@@ -1,7 +1,3 @@
-# ============================================
-# On-chain indexed entities (from indexer)
-# ============================================
-
 type Account @entity {
   id: ID!
   account: String! @index
@@ -37,10 +33,6 @@ type Withdrawal @entity {
   txnHash: String! @index
 }
 
-# ============================================
-# App-level entities (managed by the backend)
-# ============================================
-
 type Vault @entity {
   id: ID!
   name: String!
@@ -51,6 +43,10 @@ type Vault @entity {
   strategy: String!
   dcaFrequency: String
   dcaAmount: BigInt
+  signalId: String
+  signalQuestion: String
+  signalThreshold: Int
+  signalAction: String
   createdAt: BigInt!
   updatedAt: BigInt!
 }
