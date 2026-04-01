@@ -1,6 +1,6 @@
-import * as usdcAbi from "../../abi/usdc";
-import { handleTransfer } from "../../mappings/usdc";
+import * as accountFactoryAbi from "../../abi/accountFactory";
+import { handleAccountCreated } from "../../mappings/accountFactory";
 
-export const usdcLogsHandlers = new Map([
-  [usdcAbi.events.Transfer.topic, handleTransfer],
+export const accountFactoryLogsHandlers = new Map([
+  [accountFactoryAbi.events.AccountCreated.topic, handleAccountCreated],
 ]);

@@ -1,5 +1,5 @@
 import { Store } from "@subsquid/typeorm-store";
-import { UsdcTransfer } from "../model";
+import { Account } from "../model";
 
 const BATCH_SIZE = 2000;
 
@@ -19,24 +19,24 @@ async function batchUpsert<T extends { id: string }>(
 }
 
 export class EntityManager {
-  readonly usdcTransfersMap = new Map<string, UsdcTransfer>();
+  readonly accountsMap = new Map<string, Account>();
 
   async upsertAll(store: Store): Promise<void> {
-    await batchUpsert(store, Array.from(this.usdcTransfersMap.values()));
+    await batchUpsert(store, Array.from(this.accountsMap.values()));
   }
 }
 
-export const getUsdcTransferFromMapOrDb = async (
+export const getAccountFromMapOrDb = async (
   store: Store,
   entities: EntityManager,
-  usdcTransferId: string
-): Promise<UsdcTransfer | undefined> => {
-  let usdcTransfer = entities.usdcTransfersMap.get(usdcTransferId);
-  if (!usdcTransfer) {
-    usdcTransfer = await store.get(UsdcTransfer, usdcTransferId);
-    if (usdcTransfer) {
-      entities.usdcTransfersMap.set(usdcTransferId, usdcTransfer);
+  accountId: string
+): Promise<Account | undefined> => {
+  let account = entities.accountsMap.get(accountId);
+  if (!account) {
+    account = await store.get(Account, accountId);
+    if (account) {
+      entities.accountsMap.set(accountId, account);
     }
   }
-  return usdcTransfer;
+  return account;
 };

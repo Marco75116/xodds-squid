@@ -7,3 +7,14 @@ type UsdcTransfer @entity {
   chainId: Int!
   txnHash: String! @index
 }
+
+type Account @entity {
+  id: ID!
+  account: String! @index
+  owner: String! @index
+  operator: String! @index
+  salt: BigInt!
+  block: Int!
+  chainId: Int!
+  txnHash: String! @index
+}

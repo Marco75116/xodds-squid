@@ -2,7 +2,7 @@ import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { makeProcessor } from "./processor";
 import { networksConfigs } from "./utils/constants/network.constant";
 import { assert } from "console";
-import { usdcLogsHandlers } from "./utils/helpers/handlers.helper";
+import { accountFactoryLogsHandlers } from "./utils/helpers/handlers.helper";
 import { EntityManager } from "./utils/EntityManager";
 
 assert(
@@ -36,8 +36,8 @@ processor.run(database, async (ctx) => {
 
   for (let block of ctx.blocks) {
     for (let log of block.logs) {
-      if (log.address === config.usdc.address) {
-        const handler = usdcLogsHandlers.get(log.topics[0]);
+      if (log.address === config.accountFactory.address) {
+        const handler = accountFactoryLogsHandlers.get(log.topics[0]);
         if (handler) {
           await handler(ctx, log, entities);
         }
@@ -45,5 +45,5 @@ processor.run(database, async (ctx) => {
     }
   }
 
-  await entities.upsertAll(ctx);
+  await entities.upsertAll(ctx.store);
 });

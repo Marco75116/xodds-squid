@@ -8,7 +8,7 @@ import {
 } from "@subsquid/evm-processor";
 import { Store } from "@subsquid/typeorm-store";
 import { NetworkConfig } from "./utils/constants/network.constant";
-import * as usdcAbi from "./abi/usdc";
+import * as accountFactoryAbi from "./abi/accountFactory";
 
 const fields = {
   log: {
@@ -43,9 +43,9 @@ export function makeProcessor(
     .setPrometheusPort(config.prometheusPort)
     .setFinalityConfirmation(config.finalityConfirmation)
     .addLog({
-      range: { from: config.usdc.startBlock },
-      address: [config.usdc.address],
-      topic0: [usdcAbi.events.Transfer.topic],
+      range: { from: config.accountFactory.startBlock },
+      address: [config.accountFactory.address],
+      topic0: [accountFactoryAbi.events.AccountCreated.topic],
     })
     .setFields({
       log: {
