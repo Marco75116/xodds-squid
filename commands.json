@@ -139,8 +139,8 @@
         "opener"
       ]
     },
-    "process:eth": {
-      "description": "Load .env and start the squid processor for eth",
+    "process:ink": {
+      "description": "Load .env and start the squid processor for ink",
       "deps": [
         "build",
         "migration:apply"
@@ -149,18 +149,18 @@
         "node",
         "--require=dotenv/config",
         "lib/main.js",
-        "eth"
+        "ink"
       ]
     },
-    "process:prod:eth": {
-      "description": "Start the squid processor for eth",
+    "process:prod:ink": {
+      "description": "Start the squid processor for ink",
       "deps": [
         "migration:apply"
       ],
       "cmd": [
         "node",
         "lib/main.js",
-        "eth"
+        "ink"
       ],
       "hidden": true
     }

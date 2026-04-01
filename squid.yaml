@@ -7,10 +7,10 @@ deploy:
   addons:
     postgres: {}
   processor:
-    - name: eth-processor
+    - name: ink-processor
       cmd:
         - sqd
-        - process:prod:eth
+        - process:prod:ink
   api:
     cmd:
       - sqd

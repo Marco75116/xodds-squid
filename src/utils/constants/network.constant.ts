@@ -1,4 +1,4 @@
-import { ethNetworkConfig } from "./networkconfigs/eth.networkconfig";
+import { inkNetworkConfig } from "./networkconfigs/ink.networkconfig";
 
 export type Config = {
   address: string;
@@ -15,9 +15,10 @@ export type NetworkConfig = {
   wrapNative: string;
   chainId: number;
   chainTag: string;
+  accountFactory: Config;
   usdc: Config;
 };
 
 export const networksConfigs: Record<string, NetworkConfig> = {
-  eth: ethNetworkConfig,
+  ink: inkNetworkConfig,
 };
