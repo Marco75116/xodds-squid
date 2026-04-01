@@ -9,6 +9,7 @@ import {
 import { Store } from "@subsquid/typeorm-store";
 import { NetworkConfig } from "./utils/constants/network.constant";
 import * as accountFactoryAbi from "./abi/accountFactory";
+import * as userAccountAbi from "./abi/userAccount";
 
 const fields = {
   log: {
@@ -49,6 +50,10 @@ export function makeProcessor(
         accountFactoryAbi.events.AccountCreated.topic,
         accountFactoryAbi.events.VaultConfigured.topic,
       ],
+    })
+    .addLog({
+      range: { from: config.accountFactory.startBlock },
+      topic0: [userAccountAbi.events.Withdrawn.topic],
     })
     .setFields({
       log: {

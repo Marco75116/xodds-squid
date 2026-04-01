@@ -1,5 +1,5 @@
 import { Store } from "@subsquid/typeorm-store";
-import { Account, VaultConfig } from "../model";
+import { Account, VaultConfig, Withdrawal } from "../model";
 
 const BATCH_SIZE = 2000;
 
@@ -21,10 +21,12 @@ async function batchUpsert<T extends { id: string }>(
 export class EntityManager {
   readonly accountsMap = new Map<string, Account>();
   readonly vaultConfigsMap = new Map<string, VaultConfig>();
+  readonly withdrawalsMap = new Map<string, Withdrawal>();
 
   async upsertAll(store: Store): Promise<void> {
     await batchUpsert(store, Array.from(this.accountsMap.values()));
     await batchUpsert(store, Array.from(this.vaultConfigsMap.values()));
+    await batchUpsert(store, Array.from(this.withdrawalsMap.values()));
   }
 }
 

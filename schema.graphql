@@ -19,6 +19,17 @@ type Account @entity {
   txnHash: String! @index
 }
 
+type Withdrawal @entity {
+  id: ID!
+  account: String! @index
+  token: String! @index
+  to: String! @index
+  amount: BigInt!
+  block: Int!
+  chainId: Int!
+  txnHash: String! @index
+}
+
 type VaultConfig @entity {
   id: ID!
   account: String! @index

@@ -11,3 +11,7 @@ export const getAccountId = (logId: string) => {
 export const getVaultConfigId = (logId: string) => {
   return `${config.chainId}-${logId}`;
 };
+
+export const getWithdrawalId = (logId: string) => {
+  return `${config.chainId}-${logId}`;
+};
