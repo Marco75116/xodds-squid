@@ -61,6 +61,7 @@ type VaultComposition @entity {
   ticker: String!
   tokenAddress: String! @index
   weight: Int!
+  chainId: Int! @index
   createdAt: BigInt!
 }
 
@@ -73,6 +74,7 @@ type BuyOrder @entity {
   orderUid: String @index
   status: String! @index
   error: String
+  chainId: Int! @index
   createdAt: BigInt!
 }
 
@@ -84,5 +86,6 @@ type WithdrawOrder @entity {
   amount: BigInt!
   txHash: String @index
   status: String! @index
+  chainId: Int! @index
   createdAt: BigInt!
 }
