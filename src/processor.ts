@@ -26,8 +26,13 @@ export type ProcessorContext<Store> = DataHandlerContext<Store, Fields>;
 export function makeProcessor(
   config: NetworkConfig
 ): EvmBatchProcessor<Fields> {
-  const processor = new EvmBatchProcessor()
-    .setGateway(config.gatewaySqdUrl)
+  let processor = new EvmBatchProcessor();
+
+  if (config.gatewaySqdUrl) {
+    processor = processor.setGateway(config.gatewaySqdUrl);
+  }
+
+  processor = processor
     .setRpcEndpoint({
       url: config.rpcUrl,
       requestTimeout: config.requestTimeout,
