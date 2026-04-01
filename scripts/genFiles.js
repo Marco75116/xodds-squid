@@ -1,7 +1,7 @@
 const fs = require("fs");
 const yaml = require("js-yaml");
 
-const networks = ["ink"];
+const networks = ["eth", "ink"];
 
 // GENERATE THE SQUID FILE FOR MULTICHAIN during the command sqd run .
 

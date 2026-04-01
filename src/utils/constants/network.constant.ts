@@ -1,3 +1,4 @@
+import { ethereumNetworkConfig } from "./networkconfigs/ethereum.networkconfig";
 import { inkNetworkConfig } from "./networkconfigs/ink.networkconfig";
 
 export type Config = {
@@ -20,5 +21,6 @@ export type NetworkConfig = {
 };
 
 export const networksConfigs: Record<string, NetworkConfig> = {
+  eth: ethereumNetworkConfig,
   ink: inkNetworkConfig,
 };
