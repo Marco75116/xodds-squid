@@ -1,7 +1,7 @@
 import { Context, Log } from "../processor";
 import * as userAccountAbi from "../abi/userAccount";
 import { createWithdrawal } from "../utils/entities/withdrawal";
-import { EntityManager } from "../utils/EntityManager";
+import { EntityManager, getAccountByAddress } from "../utils/EntityManager";
 import { getWithdrawalId } from "../utils/helpers/ids.helper";
 
 export const handleWithdrawn = async (
@@ -9,6 +9,9 @@ export const handleWithdrawn = async (
   log: Log,
   entities: EntityManager
 ) => {
+  const account = await getAccountByAddress(ctx.store, entities, log.address);
+  if (!account) return;
+
   let { token, to, amount } = userAccountAbi.events.Withdrawn.decode(log);
 
   const withdrawal = createWithdrawal(log, token, to, amount);

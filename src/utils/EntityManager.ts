@@ -45,6 +45,21 @@ export const getAccountFromMapOrDb = async (
   return account;
 };
 
+export const getAccountByAddress = async (
+  store: Store,
+  entities: EntityManager,
+  address: string
+): Promise<Account | undefined> => {
+  for (const account of entities.accountsMap.values()) {
+    if (account.account === address) return account;
+  }
+  const account = await store.findOneBy(Account, { account: address });
+  if (account) {
+    entities.accountsMap.set(account.id, account);
+  }
+  return account ?? undefined;
+};
+
 export const getVaultConfigFromMapOrDb = async (
   store: Store,
   entities: EntityManager,
