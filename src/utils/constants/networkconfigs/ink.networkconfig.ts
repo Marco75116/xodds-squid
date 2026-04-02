@@ -20,8 +20,8 @@ export const inkNetworkConfig: NetworkConfig = {
   chainId: 57073,
   chainTag: "ink",
   accountFactory: {
-    address: "0x0144029bc9Db2D1b13d9216cad7870d567f08Fda".toLowerCase(),
-    startBlock: 41_545_393,
+    address: "0x3B66CAf761bDF40e5174F2DF3ddBB12202F8B9a2".toLowerCase(),
+    startBlock: 41_604_423,
   },
   usdc: {
     address: "0x2D270e6886d130D724215A266106e6832161EAEd".toLowerCase(),
